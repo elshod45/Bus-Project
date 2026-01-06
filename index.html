@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TermizBus Prilojeniya</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>🚌 TermizBus</h1>
+      <input
+        type="text"
+        id="search"
+        placeholder="Avtobus raqamini yozing (1,2,3...)"
+      />
+    </header>
+
+    <div class="container">
+      <aside id="busList">
+        <div class="bus" data-number="1">
+          <i class="fa-solid fa-bus"></i> Avtobus №1
+        </div>
+        <div class="bus" data-number="2">
+          <i class="fa-solid fa-bus"></i> Avtobus №2
+        </div>
+        <div class="bus" data-number="3">
+          <i class="fa-solid fa-bus"></i> Avtobus №3
+        </div>
+        <div class="bus" data-number="5">
+          <i class="fa-solid fa-bus"></i> Avtobus №5
+        </div>
+        <div class="bus" data-number="7">
+          <i class="fa-solid fa-bus"></i> Avtobus №7
+        </div>
+        <div class="bus" data-number="15">
+          <i class="fa-solid fa-bus"></i> Avtobus №15
+        </div>
+        <div class="bus" data-number="222">
+          <i class="fa-solid fa-bus"></i> Avtobus №222
+        </div>
+      </aside>
+
+      <div id="map"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+  </body>
+</html>
