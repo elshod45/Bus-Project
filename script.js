@@ -1,112 +1,100 @@
+// 1️⃣ Xarita yaratish
 let map = L.map("map").setView([37.2242, 67.2783], 13);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenStreetMap contributors",
+  attribution: "&copy; OpenStreetMap",
 }).addTo(map);
 
+// 2️⃣ O'zgaruvchilar
 let polyline;
 let markers = [];
 
-const buses = [
-  {
-    number: 1,
-    name: "Avtobus №1",
-    stops: [
-      { name: "Aeroport", lat: 37.232, lng: 67.272 },
-      { name: "Avtovokzal", lat: 37.228, lng: 67.276 },
-      { name: "Markaz", lat: 37.224, lng: 67.281 },
-      { name: "Yangi bozor", lat: 37.221, lng: 67.286 },
-    ],
-  },
-  {
-    number: 2,
-    name: "Avtobus №2",
-    stops: [
-      { name: "Temir yo‘l vokzali", lat: 37.229, lng: 67.27 },
-      { name: "Shifoxona", lat: 37.226, lng: 67.274 },
-      { name: "Markaz", lat: 37.224, lng: 67.281 },
-      { name: "Fayzli mahalla", lat: 37.218, lng: 67.29 },
-    ],
-  },
-  {
-    number: 3,
-    name: "Avtobus №3",
-    stops: [
-      { name: "Manguzar", lat: 37.215, lng: 67.26 },
-      { name: "Yashil bozor", lat: 37.217, lng: 67.265 },
-      { name: "Karf", lat: 37.219, lng: 67.268 },
-      { name: "Bozor", lat: 37.224, lng: 67.284 },
-    ],
-  },
-  {
-    number: 5,
-    name: "Avtobus №5",
-    stops: [
-      { name: "Sanoat zonasi", lat: 37.21, lng: 67.25 },
-      { name: "Zavodlar hududi", lat: 37.212, lng: 67.255 },
-      { name: "Yangi uylar", lat: 37.218, lng: 67.26 },
-      { name: "Poliklinika", lat: 37.222, lng: 67.278 },
-      { name: "Markaz", lat: 37.224, lng: 67.281 },
-    ],
-  },
-  {
-    number: 7,
-    name: "Avtobus №7",
-    stops: [
-      { name: "Qadimiy Termiz", lat: 37.21, lng: 67.27 },
-      { name: "Fayoztepa", lat: 37.215, lng: 67.275 },
-      { name: "Muzey", lat: 37.22, lng: 67.278 },
-      { name: "Markaz", lat: 37.224, lng: 67.281 },
-    ],
-  },
-  {
-    number: 15,
-    name: "Avtobus №15",
-    stops: [
-      { name: "Temir yo‘l vokzali", lat: 37.229, lng: 67.27 },
-      { name: "Yangi massiv", lat: 37.217, lng: 67.265 },
-      { name: "Markaz", lat: 37.224, lng: 67.281 },
-    ],
-  },
-  {
-    number: 222,
-    name: "Avtobus №222",
-    stops: [
-      { name: "Sanoat zonasi", lat: 37.21, lng: 67.25 },
-      { name: "Yangi uylar", lat: 37.218, lng: 67.26 },
-      { name: "Markaz", lat: 37.224, lng: 67.281 },
-    ],
-  },
-];
+// 3️⃣ Avtobus marshrutlari
+const routes = {
+  1: [
+    ["Aeroport", 37.232, 67.272],
+    ["Avtovokzal", 37.228, 67.276],
+    ["Markaz", 37.224, 67.281],
+    ["Yangi bozor", 37.221, 67.286],
+  ],
+  2: [
+    ["Temir yo‘l vokzali", 37.229, 67.27],
+    ["Shifoxona", 37.226, 67.274],
+    ["Markaz", 37.224, 67.281],
+  ],
+  3: [
+    ["Manguzar", 37.215, 67.26],
+    ["Yashil bozor", 37.217, 67.265],
+    ["Bozor", 37.224, 67.284],
+  ],
+  5: [
+    ["Sanoat zonasi", 37.21, 67.25],
+    ["Yangi uylar", 37.218, 67.26],
+    ["Markaz", 37.224, 67.281],
+  ],
+  7: [
+    ["Qadimiy Termiz", 37.21, 67.27],
+    ["Markaz", 37.224, 67.281],
+  ],
+  15: [
+    ["Temir yo‘l vokzali", 37.229, 67.27],
+    ["Markaz", 37.224, 67.281],
+  ],
+  222: [
+    ["Sanoat zonasi", 37.21, 67.25],
+    ["Markaz", 37.224, 67.281],
+  ],
+};
 
-function showBus(bus) {
+// 4️⃣ Avtobus bosilganda
+document.querySelectorAll(".bus").forEach((bus) => {
+  bus.onclick = function () {
+    let busNumber = this.dataset.bus;
+    drawRoute(routes[busNumber]);
+  };
+});
+
+// 5️⃣ Marshrut chizish
+function drawRoute(stops) {
   if (polyline) map.removeLayer(polyline);
   markers.forEach((m) => map.removeLayer(m));
   markers = [];
 
-  const latlngs = bus.stops.map((s) => [s.lat, s.lng]);
-  polyline = L.polyline(latlngs, { color: "#0d6efd", weight: 6 }).addTo(map);
+  let line = [];
+  let list = document.getElementById("stopsList");
+  list.innerHTML = "";
 
-  bus.stops.forEach((s) => {
-    const marker = L.marker([s.lat, s.lng])
-      .addTo(map)
-      .bindPopup(`${bus.name}: ${s.name}`);
+  stops.forEach((stop) => {
+    line.push([stop[1], stop[2]]);
+
+    let marker = L.marker([stop[1], stop[2]]).addTo(map).bindPopup(stop[0]);
+
     markers.push(marker);
+
+    let li = document.createElement("li");
+    li.textContent = "📍 " + stop[0];
+    list.appendChild(li);
   });
+
+  polyline = L.polyline(line, {
+    color: "#0d6efd",
+    weight: 5,
+  }).addTo(map);
 
   map.fitBounds(polyline.getBounds());
+
+  setTimeout(() => map.invalidateSize(), 300);
 }
 
-document.querySelectorAll(".bus").forEach((div) => {
-  div.addEventListener("click", () => {
-    const num = parseInt(div.getAttribute("data-number"));
-    const bus = buses.find((b) => b.number === num);
-    if (bus) showBus(bus);
+// 6️⃣ Qidiruv
+document.getElementById("search").oninput = function () {
+  let value = this.value;
+  document.querySelectorAll(".bus").forEach((b) => {
+    b.style.display = b.textContent.includes(value) ? "block" : "none";
   });
-});
+};
 
-document.getElementById("search").addEventListener("input", (e) => {
-  const val = e.target.value;
-  const bus = buses.find((b) => b.number.toString() === val);
-  if (bus) showBus(bus);
-});
+// 7️⃣ Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}

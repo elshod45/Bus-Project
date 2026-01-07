@@ -3,62 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TermizBus Prilojeniya</title>
+    <title>TermizBus</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css" />
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-    <!-- Font Awesome -->
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
-      <h1>🚌 TermizBus</h1>
-      <input
-        type="text"
-        id="search"
-        placeholder="Avtobus raqamini yozing (1,2,3...)"
-      />
+      <h1><i class="fa-solid fa-bus"></i> TermizBus</h1>
+      <input type="text" id="search" placeholder="Avtobus raqamini yozing..." />
     </header>
 
     <div class="container">
+      <!-- Avtobuslar -->
       <aside id="busList">
-        <div class="bus" data-number="1">
-          <i class="fa-solid fa-bus"></i> Avtobus №1
-        </div>
-        <div class="bus" data-number="2">
-          <i class="fa-solid fa-bus"></i> Avtobus №2
-        </div>
-        <div class="bus" data-number="3">
-          <i class="fa-solid fa-bus"></i> Avtobus №3
-        </div>
-        <div class="bus" data-number="5">
-          <i class="fa-solid fa-bus"></i> Avtobus №5
-        </div>
-        <div class="bus" data-number="7">
-          <i class="fa-solid fa-bus"></i> Avtobus №7
-        </div>
-        <div class="bus" data-number="15">
-          <i class="fa-solid fa-bus"></i> Avtobus №15
-        </div>
-        <div class="bus" data-number="222">
-          <i class="fa-solid fa-bus"></i> Avtobus №222
-        </div>
+        <div class="bus" data-bus="1">🚌 Avtobus №1</div>
+        <div class="bus" data-bus="2">🚌 Avtobus №2</div>
+        <div class="bus" data-bus="3">🚌 Avtobus №3</div>
+        <div class="bus" data-bus="5">🚌 Avtobus №5</div>
+        <div class="bus" data-bus="7">🚌 Avtobus №7</div>
+        <div class="bus" data-bus="15">🚌 Avtobus №15</div>
+        <div class="bus" data-bus="222">🚌 Avtobus №222</div>
       </aside>
 
+      <!-- Xarita -->
       <div id="map"></div>
     </div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Bekatlar -->
+    <div id="stopsPanel">
+      <h3>Bekatlar</h3>
+      <ul id="stopsList"></ul>
+    </div>
 
-    <!-- JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
